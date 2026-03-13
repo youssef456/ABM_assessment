@@ -1,6 +1,7 @@
 # System Architecture Design
 
-This document outlines a high-performance, scalable distributed worker architecture designed to handle intensive automation and CAPTCHA solving tasks.
+## Design Summary
+The proposed system follows a **Decoupled Microservices Architecture** optimized for high-volume automation tasks. By using **RabbitMQ** as a central message broker, we ensure asynchronous task processing and resilience against worker failures. The **Worker Layer** is designed for horizontal scalability, allowing the system to handle spikes in demand by spinning up additional containerized Playwright instances. Data integrity is maintained via a **High-Availability SQL Cluster**, while a comprehensive **Observability Stack** (Prometheus/ELK) provides real-time health and error tracking. This design ensures that task execution is reliable, observable, and easily scalable.
 
 ## Architecture Diagram (Mermaid)
 
