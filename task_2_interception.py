@@ -18,6 +18,30 @@ async def task_2_interception():
         page = await context.new_page()
         await Stealth().apply_stealth_async(page)
         
+        # Inject realistic arrow cursor
+        await page.add_init_script("""
+            window.addEventListener('DOMContentLoaded', () => {
+                const cursor = document.createElement('div');
+                cursor.id = 'virtual-cursor';
+                cursor.style.position = 'absolute';
+                cursor.style.width = '12px';
+                cursor.style.height = '19px';
+                // Standard arrow cursor SVG
+                cursor.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"12\\" height=\\"19\\"><path fill=\\"white\\" stroke=\\"black\\" d=\\"M0 0l11.4 11.4-4.2.8 3.5 6.8-2 1-3.5-6.8-4 3.8V0z\\"/></svg>')";
+                cursor.style.backgroundRepeat = 'no-repeat';
+                cursor.style.pointerEvents = 'none';
+                cursor.style.zIndex = '999999';
+                cursor.style.left = '0px';
+                cursor.style.top = '0px';
+                document.body.appendChild(cursor);
+
+                window.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.pageX + 'px';
+                    cursor.style.top = e.pageY + 'px';
+                });
+            });
+        """)
+        
         # Intercept and block
         async def handle_request(route):
             url = route.request.url
@@ -45,22 +69,23 @@ async def task_2_interception():
             if (h2) h2.innerText += ' - TURNSTILE BLOCKED';
             const log = document.createElement('div');
             log.id = 'interception-log';
-            log.style.color = 'red';
-            log.style.fontWeight = 'bold';
             log.style.padding = '10px';
-            log.style.border = '2px solid red';
-            log.innerText = 'Network Interception Active: Turnstile script blocked.';
+            log.style.margin = '10px 0';
+            log.style.border = '2px solid orange';
+            log.style.backgroundColor = '#fff3cd';
+            log.innerText = 'Interception active: Waiting for Turnstile...';
             document.body.prepend(log);
         }""")
         
-        await move_cursor_to(640, 360)
+        # Wait to show that it's blocked
         print("Waiting to show blocked state...")
         await asyncio.sleep(5)
         
         # Extract metadata
         sitekey = "0x4AAAAAAB4f8DxT2p1q1sgQ" # Default sitekey for this page if not found
         
-        # Token to inject
+        # Inject the token captured from task 1
+        # In a real scenario, this would be a fresh token. Using a placeholder for demo.
         token_to_inject = "REFINED_DEMO_TOKEN_VAL_12345"
         if os.path.exists("task_1_results.json"):
             with open("task_1_results.json", "r") as f:
@@ -72,20 +97,19 @@ async def task_2_interception():
                             break
         
         print(f"Injecting token: {token_to_inject[:50]}...")
-        await page.evaluate("""(token) => {
-            const log = document.getElementById('interception-log');
-            if (log) log.innerText = 'Injecting Token and Submitting...';
-            
-            const form = document.querySelector('#turnstile-form') || document.querySelector('form');
-            let input = document.querySelector('[name="cf-turnstile-response"]');
-            if (!input) {
-                input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'cf-turnstile-response';
-                form.appendChild(input);
-            }
-            input.value = token;
-        }""", token_to_inject)
+        
+        await page.evaluate(f"""(token) => {{
+            const input = document.querySelector('[name="cf-turnstile-response"]');
+            if (input) {{
+                input.value = token;
+                const log = document.getElementById('interception-log');
+                log.innerText = 'Token Injected manually: ' + token.substring(0, 15) + '...';
+                log.style.border = '2px solid blue';
+                log.style.backgroundColor = '#cce5ff';
+            }}
+        }}""", token_to_inject)
+
+        await asyncio.sleep(2)
 
         # Move mouse to submit
         try:
