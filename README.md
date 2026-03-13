@@ -51,6 +51,7 @@ python task_3_scraping.py
 ```
 
 ## Results & Delivery
-- Videos for Task 1 and 2 are stored in the `videos/` directory.
+- Videos for Task 1 and 2 are stored in the `videos/` directory with descriptive names.
+- AI Prompts for Tasks 1, 2, and 3 are included as requested.
 - Scraping results are in `allimages.json` and `visible_images_only.json`.
 - Success rate for Task 1 is logged to the console and `task_1_results.json`.

@@ -75,24 +75,55 @@ async def task_2_interception():
         print(f"Injecting token: {token_to_inject[:50]}...")
         
         # Inject the token into the hidden input
-        await page.eval_on_selector("[name='cf-turnstile-response']", 
-                                   f"(el, token) => {{ el.value = token; }}", 
-                                   token_to_inject)
+        # If the script is blocked, the element might not exist. Create it if missing.
+        await page.evaluate("""(token) => {
+            const form = document.querySelector('#turnstile-form') || document.querySelector('form');
+            if (form && !document.querySelector('[name="cf-turnstile-response"]')) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'cf-turnstile-response';
+                form.appendChild(input);
+            }
+            if (document.querySelector('[name="cf-turnstile-response"]')) {
+                document.querySelector('[name="cf-turnstile-response"]').value = token;
+            }
+        }""", token_to_inject)
         
         # Take a screenshot before submit to show Turnstile didn't load (blocked)
         await page.screenshot(path="task_2_blocked.png")
         
         # Click submit
         print("Clicking submit with injected token...")
-        await page.click("button[type='submit']")
+        try:
+            # Try different possible selectors
+            if await page.query_selector("#submit-btn"):
+                await page.click("#submit-btn")
+            elif await page.query_selector("button[type='submit']"):
+                await page.click("button[type='submit']")
+            elif await page.query_selector("input[type='submit']"):
+                await page.click("input[type='submit']")
+            else:
+                print("Submit button not found with standard selectors. Checking all buttons...")
+                buttons = await page.query_selector_all("button")
+                for btn in buttons:
+                    text = await btn.inner_text()
+                    if "Submit" in text:
+                        await btn.click()
+                        break
+        except Exception as e:
+            print(f"Error clicking button: {e}")
+            await page.screenshot(path="task_2_error.png")
+            content = await page.content()
+            with open("task_2_debug.html", "w", encoding="utf-8") as f:
+                f.write(content)
         
         # Wait for success message
         try:
             success_selector = "text='Success! Verified'"
             await page.wait_for_selector(success_selector, timeout=15000)
             print("Successfully verified with injected token!")
-        except:
-            print("Verification message not found. Checking page content...")
+        except Exception as e:
+            print(f"Verification message not found: {e}")
             content = await page.content()
             if "Success! Verified" in content:
                 print("Successfully verified (found in content)!")
