@@ -92,16 +92,21 @@ async def run_trials(total_trials=10):
                         print(f"Trial {i}: SUCCESS! Verified.")
                         success = True
                         success_count += 1
+                        # Show success for 2 seconds in video
+                        await asyncio.sleep(2)
                     except:
                         content = await page.content()
                         if "Success! Verified" in content:
                             print(f"Trial {i}: SUCCESS (found in content).")
                             success = True
                             success_count += 1
+                            await asyncio.sleep(2)
                         else:
                             print(f"Trial {i}: FAILED - Success message not found.")
+                            await asyncio.sleep(1)
                 else:
                     print(f"Trial {i}: FAILED - Token timeout.")
+                    await asyncio.sleep(1)
                     
             except Exception as e:
                 print(f"Trial {i}: Error: {e}")
@@ -112,9 +117,12 @@ async def run_trials(total_trials=10):
                 "token": token
             })
             
-            # Short pause between trials
+            # Short pause before next trial
             await asyncio.sleep(1)
             
+        # Final delay to show the last result before closing
+        await asyncio.sleep(3)
+        
         # Close everything to finalize the video
         video_path = await page.video.path()
         await context.close()
