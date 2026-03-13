@@ -9,9 +9,8 @@ This repository contains the implementation for a four-part technical assessment
 - `task_3_scraping.py`: DOM scraping assessment capturing images and text.
 - `prompt_task_1.txt`, `prompt_task_2.txt`, `prompt_task_3.txt`: The AI prompts used to generate the logic for each task.
 - `task_4_diagram/`: Contains the architecture diagram and a detailed technical explanation.
-- `videos/`: (Generated) Contains video recordings of Task 1 and Task 2 attempts.
+- `videos/`: Contains descriptive recordings: `Task_1_Trial_1.webm` through `Task_1_Trial_10.webm` and `Task_2_Interception.webm`.
 - `allimages.json` / `visible_images_only.json`: (Generated) Results from the scraping task.
-
 
 ## Approach
 
