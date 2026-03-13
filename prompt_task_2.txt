@@ -1,8 +1,0 @@
-Create a Python script using Playwright to demonstrate network interception and captcha bypass on https://cd.captchaaiplus.com/turnstile.html.
-
-The script should:
-1. Intercept and block all network requests to 'challenges.cloudflare.com' to prevent the Turnstile widget from loading.
-2. Capture and print the following metadata from the page or network traffic: sitekey, pageaction, cdata, and pagedata.
-3. Inject a valid Turnstile token (simulated or pre-recorded) into the hidden input field named 'cf-turnstile-response'.
-4. Simulate a form submission and verify that the page displays "Success! Verified" without the widget ever having loaded.
-5. Record a video of the process to demonstrate the interception and injection flow.

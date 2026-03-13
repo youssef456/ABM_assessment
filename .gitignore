@@ -1,0 +1,17 @@
+# Temporary and Debug files
+debug_*.py
+debug_*.png
+diag.py
+diag_*.png
+find_selector.py
+find_selector_state.png
+instructions.txt
+prompt_task_*.txt
+diag_source.html
+
+# Video temporary directories
+videos/temp_task_1/
+
+# OS files
+.DS_Store
+Thumbs.db
