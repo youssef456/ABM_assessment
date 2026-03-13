@@ -1,0 +1,8 @@
+Develop a Python script using Playwright for a complex DOM scraping assessment on a target page.
+
+The requirements are:
+1. Identify all image elements on the page (expected 100+).
+2. Extract and encode all images into base64 format and save them to 'allimages.json'.
+3. Filter for human-visible images only (excluding those hidden by CSS like 'display: none', 'visibility: hidden', or being outside the initial viewport) and save them to 'visible_images_only.json'.
+4. Extract the visible text instructions for the user while filtering out any hidden text elements.
+5. Ensure the scraping logic is robust enough to handle dynamic or lazy-loaded content.

@@ -1,4 +1,65 @@
 {
     "success_rate": 0.0,
-    "tokens": []
+    "trials": [
+        {
+            "trial": 1,
+            "headless": false,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 2,
+            "headless": true,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 3,
+            "headless": false,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 4,
+            "headless": true,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 5,
+            "headless": false,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 6,
+            "headless": true,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 7,
+            "headless": false,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 8,
+            "headless": true,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 9,
+            "headless": false,
+            "success": false,
+            "token": null
+        },
+        {
+            "trial": 10,
+            "headless": true,
+            "success": false,
+            "token": null
+        }
+    ]
 }

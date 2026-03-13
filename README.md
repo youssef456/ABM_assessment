@@ -4,12 +4,14 @@ This repository contains the implementation for a four-part technical assessment
 
 ## Project Structure
 
-- `task_1_automation.py`: Stealth automation using Playwright to solve Cloudflare Turnstile captchas. Includes retry logic for 10 attempts and video recording.
-- `task_2_interception.py`: Network interception script that blocks Turnstile loading, captures metadata (sitekey, cdata, etc.), and injects a valid token.
-- `task_3_scraping.py`: DOM scraping assessment capturing all images and visible-only images as base64, plus visible text instructions.
-- `task_4_diagram/`: Contains the architecture diagram and a detailed technical explanation of a scalable worker node system.
+- `task_1_automation.py`: Stealth automation using Playwright to solve Cloudflare Turnstile captchas.
+- `task_2_interception.py`: Network interception script that blocks Turnstile loading.
+- `task_3_scraping.py`: DOM scraping assessment capturing images and text.
+- `prompt_task_1.txt`, `prompt_task_2.txt`, `prompt_task_3.txt`: The AI prompts used to generate the logic for each task.
+- `task_4_diagram/`: Contains the architecture diagram and a detailed technical explanation.
 - `videos/`: (Generated) Contains video recordings of Task 1 and Task 2 attempts.
 - `allimages.json` / `visible_images_only.json`: (Generated) Results from the scraping task.
+
 
 ## Approach
 

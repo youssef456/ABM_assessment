@@ -1,0 +1,10 @@
+Write a Python script using Playwright and the playwright-stealth library to automate the solving of a Cloudflare Turnstile captcha at https://cd.captchaaiplus.com/turnstile.html. 
+
+The script should:
+1. Run 10 trials in alternating headless (True/False) modes.
+2. Navigate to the page and simulate human-like interactions (e.g., clicking the Turnstile widget).
+3. Wait for the 'cf-turnstile-response' token to appear in the DOM.
+4. Print the token upon success and click the 'Submit' button to verify the "Success! Verified" message.
+5. Record a video of each attempt and save them in a 'videos/' directory.
+6. Calculate and report the final success rate (aim for at least 60%).
+7. Handle timeouts and navigation errors gracefully.

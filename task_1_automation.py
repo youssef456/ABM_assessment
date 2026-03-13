@@ -30,12 +30,24 @@ async def run_trial(trial_number, headless):
             
             # Fields are read-only, skipping filling them.
             # Small delay to ensure widget is ready
-            await asyncio.sleep(3)
+            await asyncio.sleep(5)
             
             # Interact with the Turnstile widget
-            print(f"Trial {trial_number}: Clicking Turnstile widget...")
-            # Use fixed coordinates from subagent observation (approx center of widget)
-            await page.mouse.click(45, 445)
+            print(f"Trial {trial_number}: Locating Turnstile widget...")
+            iframe_selector = "iframe[src*='turnstile']"
+            try:
+                iframe = await page.wait_for_selector(iframe_selector, timeout=20000)
+                box = await iframe.bounding_box()
+                if box:
+                    # Click slightly inside the left-top of the widget (where the box usually is)
+                    await page.mouse.click(box['x'] + 30, box['y'] + 30)
+                    print(f"Trial {trial_number}: Clicked Turnstile widget at {box['x']+30}, {box['y']+30}")
+                else:
+                    print(f"Trial {trial_number}: Could not get bounding box for Turnstile.")
+                    await page.mouse.click(45, 445) # Fallback
+            except Exception as e:
+                print(f"Trial {trial_number}: Widget not found or error: {e}")
+                await page.mouse.click(45, 445) # Fallback
             
             print(f"Trial {trial_number}: Waiting for Turnstile verification...")
             
