@@ -21,7 +21,11 @@ Implemented using **Playwright** with the `playwright-stealth` library. The scri
 Utilizes Playwright's `page.route` to intercept and abort requests to `challenges.cloudflare.com`. This demonstrates the ability to block captcha loading while extracting critical metadata from the network traffic and successfully injecting a pre-obtained token to pass verification.
 
 ### Task 3: DOM Scraping
-Uses JavaScript execution within the browser context to identify image elements. It differentiate between "all images" and "visible images" by checking computed styles (display, visibility) and viewport bounding boxes. All images are converted to base64 via a canvas-based extraction method.
+Navigates to the specified BLS Spain Captcha generation URL. The scrUsing python playwright, open this URL: https://egypt.blsspainglobal.com/Global/CaptchaPublic/GenerateCaptcha?data=4CDiA9odF2%2b%2bsWCkAU8htqZkgDyUa5SR6waINtJfg1ThGb6rPIIpxNjefP9UkAaSp%2fGsNNuJJi5Zt1nbVACkDRusgqfb418%2bScFkcoa1F0I%3d
+Scrap all images as base64 encoded & save them to file "allimages.json"
+Scrap only the 9 Images as base64 encoded visible to you as a human and save them to file "visible_images_only.json"
+There are many text instructions on that site(100+), you are required to scrap the visible one to you as a human and print it.
+umerous hidden instructions within the DOM.
 
 ### Task 4: System Architecture
 Designed a robust, scalable backend using **RabbitMQ** for task distribution, horizontally scalable **Worker Nodes** for processing, and a secondary **SQL Failover** system. Monitoring is integrated using a Prometheus/ELK stack for health and error tracking.
