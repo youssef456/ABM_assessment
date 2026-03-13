@@ -11,13 +11,13 @@ graph TD
     
     subgraph "Messaging Layer"
         API -->|Task Submission| MQ[RabbitMQ Message Queue]
-    }
+    end
     
     subgraph "Worker Layer (Scalable)"
         MQ -->|Task Distribution| W1[Worker Node 1]
         MQ -->|Task Distribution| W2[Worker Node 2]
         MQ -->|Task Distribution| WN[Worker Node N]
-    }
+    end
     
     subgraph "Persistence Layer"
         W1 & W2 & WN -->|Data Storage| DB[(SQL Database)]
