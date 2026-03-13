@@ -3,63 +3,53 @@
     "trials": [
         {
             "trial": 1,
-            "headless": false,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 2,
-            "headless": true,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 3,
-            "headless": false,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 4,
-            "headless": true,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 5,
-            "headless": false,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 6,
-            "headless": true,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 7,
-            "headless": false,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 8,
-            "headless": true,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 9,
-            "headless": false,
             "success": false,
-            "token": null
+            "token": ""
         },
         {
             "trial": 10,
-            "headless": true,
             "success": false,
-            "token": null
+            "token": ""
         }
     ]
 }

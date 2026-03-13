@@ -131,6 +131,14 @@ async def task_2_interception():
                 print("Verification failed.")
         
         await asyncio.sleep(5)
+        
+        # Explicitly save and close
+        video = page.video
+        if video:
+            video_path = await video.path()
+            print(f"Video saved at: {video_path}")
+            
+        await context.close()
         await browser.close()
 
 if __name__ == "__main__":
