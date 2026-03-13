@@ -26,50 +26,69 @@ async def run_trials(total_trials=10):
         results_data = []
         success_count = 0
         
+        # Function to simulate cursor movement
+        async def move_cursor_to(x, y):
+            await page.mouse.move(x, y, steps=20)
+            await asyncio.sleep(0.5)
+
         for i in range(1, total_trials + 1):
             print(f"--- Starting Trial {i} ---")
             success = False
             token = None
             
             try:
-                # Set a longer navigation timeout
+                # Set a shorter navigation timeout and wait_until
                 await page.goto(url, wait_until="domcontentloaded", timeout=60000)
                 
-                # Small delay to ensure widget is ready
-                await asyncio.sleep(5)
+                # Reduced delay
+                await asyncio.sleep(2)
+                
+                # Move cursor around to show it's "active"
+                await move_cursor_to(400, 300)
                 
                 # Interact with the Turnstile widget
                 print(f"Trial {i}: Locating Turnstile widget...")
                 iframe_selector = "iframe[src*='turnstile']"
                 try:
-                    iframe = await page.wait_for_selector(iframe_selector, timeout=20000)
+                    iframe = await page.wait_for_selector(iframe_selector, timeout=10000)
                     box = await iframe.bounding_box()
                     if box:
+                        # Move cursor to the box
+                        await move_cursor_to(box['x'] + 30, box['y'] + 30)
                         await page.mouse.click(box['x'] + 30, box['y'] + 30)
                         print(f"Trial {i}: Clicked Turnstile widget.")
                     else:
                         print(f"Trial {i}: Could not get bounding box.")
-                        await page.mouse.click(100, 450) # Fallback
+                        await move_cursor_to(100, 450)
+                        await page.mouse.click(100, 450)
                 except Exception as e:
                     print(f"Trial {i}: Widget error: {e}")
-                    await page.mouse.click(100, 450) # Fallback
+                    await move_cursor_to(100, 450)
+                    await page.mouse.click(100, 450)
                 
                 # Wait for the response token
                 print(f"Trial {i}: Waiting for token...")
-                for sec in range(90):
+                for sec in range(60): # Reduced wait
                     token = await page.eval_on_selector("[name='cf-turnstile-response']", "el => el.value")
                     if token and len(token) > 20:
                         print(f"Trial {i}: Token found!")
                         break
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(0.5)
                 
                 if token and len(token) > 20:
+                    # Move cursor to submit
+                    submit_selector = "#submit-btn"
+                    submit_btn = await page.wait_for_selector(submit_selector)
+                    s_box = await submit_btn.bounding_box()
+                    if s_box:
+                        await move_cursor_to(s_box['x'] + s_box['width']/2, s_box['y'] + s_box['height']/2)
+                    
                     # Click the submit button
-                    await page.click("#submit-btn")
+                    await page.click(submit_selector)
                     
                     # Verify success
                     try:
-                        await page.wait_for_selector("text='Success! Verified'", timeout=15000)
+                        await page.wait_for_selector("text='Success! Verified'", timeout=5000)
                         print(f"Trial {i}: SUCCESS! Verified.")
                         success = True
                         success_count += 1
@@ -94,7 +113,7 @@ async def run_trials(total_trials=10):
             })
             
             # Short pause between trials
-            await asyncio.sleep(3)
+            await asyncio.sleep(1)
             
         # Close everything to finalize the video
         video_path = await page.video.path()
